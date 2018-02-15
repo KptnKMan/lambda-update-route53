@@ -27,7 +27,7 @@ def parse_args():
         # eg: script.py --help
         description="tool to send IP and url to AWS Kinesis, update Route53",
         # usage details when using --help
-        usage="python [option] --aws_domain route53domain.com"
+        usage="python [option] --aws_domain somedomain.com"
               " --ip 1.2.3.4"
               " --check_url http://api.ipify.org"
               " --aws_key reYOURACCESSKEYHEREg"
@@ -264,12 +264,12 @@ def main():
         region_name=aws_creds[2]
     )
 
-    # # debug describe shard from kinesis stream
+    # debug describe shard from kinesis stream
     # stream_info = client.describe_stream(
     #     StreamName="update-route53",
     #     Limit=1
     # )
-    # # debug print kinesis stream description
+    # debug print kinesis stream description
     # print(stream_info)
 
     # format message as JSON
@@ -285,7 +285,7 @@ def main():
 
     # dump into JSON
     data_message_json = json.dumps(data_message)
-    # # debug print
+    # debug print
     # print(data_message_json)
 
     # check and collect kinesis config
@@ -300,7 +300,7 @@ def main():
         Data=data_message_json,
         PartitionKey=kinesis_config[1]
     )
-    # # return response from kinesis
+    # return response from kinesis
     # print success message
     if put_record_response:
         print "Confirm sent to stream: {}".format(kinesis_config[0])

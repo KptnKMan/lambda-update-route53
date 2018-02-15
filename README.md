@@ -8,9 +8,9 @@
 
 ## Description
 
-- This is a tool to update a route53 domain using aws kinesis and aws lambda
+- This is a tool to update a route53 domain using a local script, AWS Kinesis and AWS Lambda
 - There are 3 main components
-  - An Update script which checks current public IP and publishes a JSON payload to AWS Kinesis
+  - A Local script which checks current public IP and publishes a JSON payload to AWS Kinesis
   - An AWS Kinesis stream that publishes an event to an AWS Lambda function
   - An AWS Lambda function that connects to an AWS Route53 domain/zone
     - The Route53 zone must already exist and be hosted in Route53
@@ -22,7 +22,12 @@
 - Written in python 2.7.14
 - Uses boto3
 
-## Requires/Uses
+### Requires
+
+- AWS Account
+- AWS IAM User with FullAdmin permissions
+
+### Uses
 
 - AWS Account
 - AWS IAM User, access to
@@ -61,18 +66,12 @@ Local script is run with following syntax:
 ### Preparing App Locally
 
 There are a few methods to prepare and run this app.
+The app will check variables in priority order, and will stop checking when a full set is found.
 
 - Use runtime args only
 - Use runtime args + Environment Variables
 - Use runtime args + `settings_file.py`
 - Use Docker
-
-The app will check variables in priority order, and will stop checking when a full set is found for each:
-
-- 1st: Use argument flags at runtime
-- 2nd: Use Environment Variables
-- 3rd: Use a settings_file.py file
-- 4th: (Extra) Run it using Docker
 
 ### Prep variables
 
@@ -138,6 +137,11 @@ docker run -it --rm \
 -e AWS_PARTITION_KEY shardId-000000000000 \
 lambda-update-route53
 ```
+
+## Logging
+
+Logs from the Local Python App are printed to stdout
+Logs from Lambda will be printed to a CloudWatch Logs stream of the same name as the `STREAM_NAME`
 
 ## Todo
 
