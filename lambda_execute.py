@@ -128,7 +128,7 @@ def get_ip_domain(event):
         raise ValueError("Value not found in Kenesis Data field")
 
     # print(kinesis_data)
-    #print(base64_encoded_data)
+    # print(base64_encoded_data)
 
     # decode data to string
     decoded_data = base64.b64decode(base64_encoded_data)
