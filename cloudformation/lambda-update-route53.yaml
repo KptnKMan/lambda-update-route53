@@ -27,6 +27,7 @@ Resources:
   # S3 bucket for code
   LambdaUpdateRoute53Bucket:
     Type: AWS::S3::Bucket
+    Properties:
       BucketName: !Ref BucketName
   # S3 upload lambda function?
   MyFunction:
@@ -37,7 +38,6 @@ Resources:
       CodeUri: ./code_lambda
   # IAM role
   LambdaUpdateRoute53Role:
-  LambdaExecutionRole:
     Type: AWS::IAM::Role
     Properties:
       RoleName: !Ref BucketName
