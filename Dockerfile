@@ -6,7 +6,7 @@ COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
 # copy my app into image
-COPY update_route53.py ./
+COPY code_local/update_route53.py ./
 
 # setup my variables
 ENV AWS_DOMAIN=None
