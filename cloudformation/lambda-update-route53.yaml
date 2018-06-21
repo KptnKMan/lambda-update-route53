@@ -1,0 +1,76 @@
+---
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description:
+  Written by Kareem Straker.
+  This CloudFormation template is to build the base infrastructure for the project at
+  https://github.com/KptnKMan/lambda-update-route53
+
+Parameters:
+  KinesisShardCount:
+    Description: Number of shards in the kinesis stream
+    Type: Number
+    Default: 1
+  BucketName:
+    Description: S3 Bucket Name
+    Type: string
+    Default: lambda-update-route53-test
+
+Transform: 'AWS::Serverless-2016-10-31'
+
+Resources:
+  KinesisStream:
+    Type: AWS::Kinesis::Stream
+    Properties:
+      ShardCount: !Ref: KinesisShardCount
+      Name: !Ref BucketName
+  # S3 bucket for code
+  LambdaUpdateRoute53Bucket:
+    Type: "AWS::S3::Bucket"
+      BucketName: !Ref BucketName
+  # S3 upload lambda function?
+  MyFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: lambda_function.lambda_handler
+      Runtime: python2.7
+      CodeUri: ./code_lambda
+  # IAM role
+  LambdaUpdateRoute53Role:
+  LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Ref BucketName
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - lambda.amazonaws.com
+          Action:
+          - sts:AssumeRole
+      Path: "/"
+      Policies:
+      - PolicyName: lambda_create_logs
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+          - Effect: Allow
+            Action:
+            - logs:CreateLogStream
+            - logs:CreateLogGroup
+            - logs:PutLogEvents
+            Resource: arn:aws:logs:*:*:*
+      - PolicyName: lambda_route53_kinesis
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+          - Effect: Allow
+            Action:
+            - route53:*
+            - kinesis:*
+            Resource: *
+
+# Outputs:
+#   set of outputs
