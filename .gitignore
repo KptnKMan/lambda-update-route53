@@ -1,4 +1,5 @@
 .vscode/*
 debug/*
 *.pyc
+code_lambda/settings_file*
 settings_file*
