@@ -26,7 +26,7 @@ Resources:
       Name: !Ref BucketName
   # S3 bucket for code
   LambdaUpdateRoute53Bucket:
-    Type: "AWS::S3::Bucket"
+    Type: AWS::S3::Bucket
       BucketName: !Ref BucketName
   # S3 upload lambda function?
   MyFunction:
