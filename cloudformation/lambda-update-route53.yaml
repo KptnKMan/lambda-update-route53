@@ -13,7 +13,7 @@ Parameters:
     Default: 1
   BucketName:
     Description: S3 Bucket Name
-    Type: string
+    Type: String
     Default: lambda-update-route53-test
 
 Transform: 'AWS::Serverless-2016-10-31'
@@ -22,7 +22,7 @@ Resources:
   KinesisStream:
     Type: AWS::Kinesis::Stream
     Properties:
-      ShardCount: !Ref: KinesisShardCount
+      ShardCount: !Ref KinesisShardCount
       Name: !Ref BucketName
   # S3 bucket for code
   LambdaUpdateRoute53Bucket:
@@ -35,7 +35,7 @@ Resources:
     Properties:
       Handler: lambda_function.lambda_handler
       Runtime: python2.7
-      CodeUri: ./code_lambda
+      CodeUri: code_lambda
   # IAM role
   LambdaUpdateRoute53Role:
     Type: AWS::IAM::Role
@@ -70,7 +70,7 @@ Resources:
             Action:
             - route53:*
             - kinesis:*
-            Resource: *
+            Resource: "*"
 
 # Outputs:
 #   set of outputs
