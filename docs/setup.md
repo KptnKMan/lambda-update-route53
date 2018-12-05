@@ -97,7 +97,7 @@ python [option] \
 --aws_key reYOURACCESSKEYHEREg \
 --aws_secret rePUTYOURSUPERSECRETHERETHISISANEXAMPLEr \
 --aws_region eu-west-1 \
---aws_stream_name lambda-update-route53 \
+--aws_stream_name lambda-update-route53-kareempoc-stream \
 --aws_partition_key shardId-000000000000
 ```
 
@@ -110,7 +110,7 @@ AWS_DOMAIN="somedomain.com"
 AWS_ACCESS_KEY_ID="reYOURACCESSKEYHEREg"
 AWS_SECRET_ACCESS_KEY="rePUTYOURSUPERSECRETHERETHISISANEXAMPLEr"
 AWS_REGION_NAME="eu-west-1"
-AWS_STREAM_NAME="lambda-update-route53"
+AWS_STREAM_NAME="lambda-update-route53-kareempoc-stream"
 AWS_PARTITION_KEY="shardId-000000000000"
 ```
 
@@ -123,7 +123,7 @@ AWS_DOMAIN = "somedomain.com"
 AWS_ACCESS_KEY_ID = "reYOURACCESSKEYHEREg"
 AWS_SECRET_ACCESS_KEY = "rePUTYOURSUPERSECRETHERETHISISANEXAMPLEr"
 AWS_REGION_NAME = "eu-west-1"
-AWS_STREAM_NAME = "lambda-update-route53"
+AWS_STREAM_NAME = "lambda-update-route53-kareempoc-stream"
 AWS_PARTITION_KEY = "shardId-000000000000"
 ```
 
@@ -142,7 +142,7 @@ docker run -it --rm \
 -e AWS_ACCESS_KEY_ID=reYOURACCESSKEYHEREg \
 -e AWS_SECRET_ACCESS_KEY=rePUTYOURSUPERSECRETHERETHISISANEXAMPLEr \
 -e AWS_REGION_NAME=eu-west-1 \
--e AWS_STREAM_NAME lambda-update-route53 \
+-e AWS_STREAM_NAME lambda-update-route53-kareempoc-stream \
 -e AWS_PARTITION_KEY shardId-000000000000 \
 lambda-update-route53
 ```
