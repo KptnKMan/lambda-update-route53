@@ -6,18 +6,18 @@ import traceback
 
 """
 AWS Lambda script to update A-Records in AWS Route 53.
-Script expects to recieve a dictionary, with:
+This script will update all A-Records in selected Hosted Zone!
+
+The script expects a payload from AWS Kinesis stream, GetRecords API details:
+https://docs.aws.amazon.com/kinesis/latest/APIReference/API_GetRecords.html
+
+Script expects a data blob as a dictionary, with:
 "ip" that is to be set
 "domain" to be updated
 "uuid" of the request, for logging
 
-The event is expected from Kinesis, as a JSON payload.
-Expected format:
-{
-    "ip": 1.2.3.4,
-    "domain": somedomain.com,
-    "uuid": str(uuid.uuid4())
-}
+Further details of how this script works are available at:
+https://github.com/KptnKMan/lambda-update-route53
 """
 
 
