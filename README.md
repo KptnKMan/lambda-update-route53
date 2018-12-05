@@ -10,150 +10,50 @@
 
 - This is a tool to update a route53 domain using a local script, AWS Kinesis and AWS Lambda
 - There are 3 main components
-  - A Local script which checks current public IP and publishes a JSON payload to AWS Kinesis
-  - An AWS Kinesis stream that publishes an event to an AWS Lambda function
-  - An AWS Lambda function that connects to an AWS Route53 domain/zone
+  - (1) An AWS Lambda function that modifies/updates an AWS Route53 domain/zone
     - The Route53 zone must already exist and be hosted in Route53
     - The Route53 zone is expected to have at least 1 A-Record
     - The A-Record should be a root (eg '*.domain.com' or 'domain.com')
+  - (2) An AWS Kinesis stream that publishes an event to (1) an AWS Lambda function
+  - (3) A Local Python App which checks current public IP and publishes a JSON payload to (2) an AWS Kinesis Stream
+    - Python App can be run manually in Python
+    - Python App can be run as a Docker container
+    - Python App can be run as a Kubernetes Helm Chart
 
 ## This repo
 
 - Written in python 2.7.14
 - Uses boto3
 
-### Requires
+## How this thing works
 
-- AWS Account
-- AWS IAM User with FullAdmin permissions
+Details available [here](docs/workflow.md)
 
-### Uses
+## How to use this app
 
-- AWS Account
-- AWS IAM User, access to
-  - Post to Kinesis
-- AWS IAM Role, access to services:
-- AWS Kinesis
-- AWS Lambda
-- AWS Route53, with a DNS domain registered
-
-## Usage
-
-As an important note, the only required variables are `DOMAIN`, `ACCESS_KEY` and `SECRET_KEY`.
-The `IP` variable is always provided manually as an argument, as this is dynamic.
-Omitting the `IP` variable will cause the App to query a public service for a public IP.
-
-Local script is run with following syntax:
-
-- `--aws_domain` [REQUIRED] (the target Route53 domain/zone you want to update)
-- `--ip` [OPTIONAL] (the IP to update the zone, if manually specified)
-- `--check_url` [OPTIONAL] (a URL endpoint that will return the public IP
-  - default uses <https://api.ipify.org>)
-  - Alternative public endpoints for public IP:
-    - <http://checkip.amazonaws.com/>
-    - <http://checkip.dyndns.org>
-    - <https://ident.me>
-- Iam Role(s)
-- Kinesis stream
-- Lambda function
-
-### Preparing AWS
-
-- setup manually
-- run cloudformation
-- run terraform
-
-### Preparing App Locally
-
-There are a few methods to prepare and run this app.
-The app will check variables in priority order, and will stop checking when a full set is found.
-
-- Use runtime args only
-- Use runtime args + Environment Variables
-- Use runtime args + `settings_file.py`
-- Use Docker
-
-### Prep variables
-
-- Using Environment Variables
-  - The name fomat of these Environment Variables is designed to not conflict with system defaults
-  - List of ENV variables that are checked:
-
-```bash
-AWS_DOMAIN="somedomain.com"
-AWS_KEY="reYOURACCESSKEYHEREg"
-AWS_SECRET="rePUTYOURSUPERSECRETHERETHISISANEXAMPLEr"
-AWS_REGION="eu-west-1"
-AWS_STREAM_NAME="update-route53"
-AWS_PARTITION_KEY="shardId-000000000000"
-```
-
-- Using settings_file.py
-  - Copy settings_file.example.py to settings_file.py
-  - Update settings_file.py with your AWS creds
-
-```python
-AWS_DOMAIN = "somedomain.com"
-AWS_ACCESS_KEY_ID = "reYOURACCESSKEYHEREg"
-AWS_SECRET_ACCESS_KEY = "rePUTYOURSUPERSECRETHERETHISISANEXAMPLEr"
-AWS_REGION_NAME = "eu-west-1"
-AWS_STREAM_NAME = "update-route53"
-AWS_PARTITION_KEY = "shardId-000000000000"
-```
-
-### Running the App
-
-- Using argument flags at runtime
-  - Usage:
-
-```bash
-python [option] \
---aws_domain somedomain.com \
---ip 1.2.3.4 \
---check_url http://api.ipify.org \
---aws_key reYOURACCESSKEYHEREg \
---aws_secret rePUTYOURSUPERSECRETHERETHISISANEXAMPLEr \
---aws_region eu-west-1 \
---aws_stream_name update-route53 \
---aws_partition_key shardId-000000000000
-```
-
-- Using Docker
-  - This emulates the arguments method internally
-
-```bash
-cd lambda-update-route53
-# build docker image locally
-docker build -t lambda-update-route53 .
-# run docker image locally
-docker run -it --rm \
---name lambda-update-route53 \
--e AWS_DOMAIN=somedomain.com \
--e IP=1.2.3.4 \
--e AWS_KEY=reYOURACCESSKEYHEREg \
--e AWS_SECRET=rePUTYOURSUPERSECRETHERETHISISANEXAMPLEr \
--e AWS_REGION=eu-west-1 \
--e AWS_STREAM_NAME update-route53 \
--e AWS_PARTITION_KEY shardId-000000000000 \
-lambda-update-route53
-```
-
-## Logging
-
-Logs from the Local Python App are printed to stdout
-Logs from Lambda will be printed to a CloudWatch Logs stream of the same name as the `STREAM_NAME`
+Details available [here](docs/setup.md)
 
 ## Todo
 
-- [ ] More detailed instructions
+- Deployment files
+  - [x] DockerFile
+  - [ ] DockerHub image automated build
+  - [x] Terraform file(s)
+  - [ ] Helm Chart
+  - [ ] CloudFormation file
+- Documentation - Instructions
+  - [x] Explain how App works
   - [ ] Infra setup
-    - [ ] manually?
+    - [x] Terraform
     - [ ] CloudFormation
-    - [ ] Terraform
-  - [ ] Prepping variables
+  - [x] Prepping variables
   - [ ] Running App
-- [ ] Unit tests
-- [ ] CloudFormation file
-- [ ] Terraform file(s)
-- [x] DockerFile
-- [ ] dockerhub image automated build
+    - [x] Using Python
+    - [x] Using Docker
+    - [ ] Using Kubernetes Helm
+- Python things
+  - [ ] Unit tests
+  - [x] Improve cred collection process
+  - [x] Properly commented code
+  - [ ] Proper internal logging
+- Misc/Random
