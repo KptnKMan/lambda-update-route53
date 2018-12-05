@@ -38,14 +38,14 @@ variable "project_version" {
 variable "project_vars" {
   type = "map"
   default = {
-    domain                = "mydomain.com"
     ip                    = "1.2.3.4"
-    uuid                  = "1234-5678-0123"
+    domain                = "mydomain.com"
     stream_name           = "lambda-update-route53"
+    partition_key         = "shardId-000000000000"
+    uuid                  = "1234-5678-0123"
     shard_count           = "1"
     retention_period      = "24"
     batch_size            = "1"
-    partition_key         = "shardId-000000000000"
     stream_start          = "TRIM_HORIZON"
   }
 }
