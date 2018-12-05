@@ -1,5 +1,10 @@
+.ignore/*
 .vscode/*
-debug/*
+.terraform/*
+*.DS_Store*
 *.pyc
+config/aws_credentials.env.sample
+config/cluster.tfvars
 code_lambda/settings_file*
-settings_file*
+code_local/settings_file*
+deploys/*
