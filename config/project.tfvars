@@ -23,7 +23,7 @@ project_version         = "0.1"
 // List of project variables to use in project, set as ENV VARs in lambda
 project_vars = {
     ip                  = "1.2.3.4" # ip to set, used for testing
-    domain              = "mydomain.com" # domain to update, used for testing
+    domain              = "somedomain.com" # domain to update, used for testing
     stream_name         = "lambda-update-route53" # name of kinesis stream, for testing
     partition_key       = "shardId-000000000000" # partition key of kinesis stream
     uuid                = "1234-5678-0123" # uuid to set, used for testing
