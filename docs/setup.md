@@ -65,6 +65,8 @@ export TF_VAR_aws_secret_key=rePUTYOURSUPERSECRETHERETHISISANEXAMPLEr
 export TF_VAR_aws_region=eu-west-1
 ```
 
+Note: These variables can instead also be specified in [project.tfvars](../config/project.tfvars) file
+
 - Apply/Build Environment
 
 ```bash
