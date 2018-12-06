@@ -50,8 +50,34 @@ TBC.
 TL;DR instructions
 
 - Tools
-- Variables
-- Apply
+
+You need to [Install Terraform](https://learn.hashicorp.com/terraform/getting-started/install.html)
+
+This project is tested with Terraform v0.11.10
+
+- Perpare Variables
+
+The basic variables you need to specify are:
+
+```bash
+export TF_VAR_aws_access_key=reYOURACCESSKEYHEREg
+export TF_VAR_aws_secret_key=rePUTYOURSUPERSECRETHERETHISISANEXAMPLEr
+export TF_VAR_aws_region=eu-west-1
+```
+
+- Apply/Build Environment
+
+```bash
+terraform get terraform
+terraform init terraform
+terraform apply -input=false -state="config/project.state" -var-file="config/project.tfvars" "terraform"
+```
+
+- Destroy Environment
+
+```bash
+terraform destroy -input=false -state="config/project.state" -var-file="config/project.tfvars" "terraform"
+```
 
 ## Local App Usage
 
