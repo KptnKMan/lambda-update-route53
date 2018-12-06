@@ -61,17 +61,24 @@ Omitting the `IP` variable will cause the App to query a public service for a pu
 
 Local script is run with following syntax:
 
-- `--aws_domain` [REQUIRED] (the target Route53 domain/zone you want to update)
-- `--ip` [OPTIONAL] (the IP to update the zone, if manually specified)
-- `--check_url` [OPTIONAL] (a URL endpoint that will return the public IP
-  - default uses <https://api.ipify.org>)
-  - Alternative public endpoints for public IP:
-    - <http://checkip.amazonaws.com/>
-    - <http://checkip.dyndns.org>
-    - <https://ident.me>
-- Iam Role(s)
-- Kinesis stream
-- Lambda function
+- `--aws_key` [REQUIRED] AWS access key ID
+- `--aws_secret` [REQUIRED] AWS secret access key
+- `--aws_domain` [REQUIRED] the target Route53 domain/zone you want to update
+- `--aws_region` [OPTIONAL] AWS region name
+- `--aws_stream_name` [OPTIONAL] AWS kinesis stream name
+- `--aws_partition_key` [OPTIONAL] AWS kinesis stream partition key
+- `--ip` [OPTIONAL] the IP to update the zone, if manually specified
+- `--check_url` [OPTIONAL] a URL endpoint that will return the public IP
+
+Notes:
+
+- `ip` only if you want to sepcify a custom IP
+- `aws_domain` A-Records only, subdomains work!
+- `check_url` default uses <https://api.ipify.org>)
+- Alternative public endpoints for public IP:
+  - <http://checkip.amazonaws.com/>
+  - <http://checkip.dyndns.org>
+  - <https://ident.me>
 
 ### Preparing App Locally
 

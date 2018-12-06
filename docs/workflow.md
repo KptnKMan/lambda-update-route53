@@ -8,7 +8,7 @@ This app works in 2 Parts:
 ## Logging
 
 Logs from the Local Python App are printed to stdout
-Logs from Lambda will be printed to a CloudWatch Logs stream of the same name as the `STREAM_NAME`
+Logs from Lambda function are also stdout, which is be printed to a CloudWatch Logs stream of the same name as the stream, effectively `/aws/lambda/STREAM_NAME`
 
 ## Local Part
 

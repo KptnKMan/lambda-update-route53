@@ -9,6 +9,8 @@
 ## Description
 
 - This is a tool to update a route53 domain using a local script, AWS Kinesis and AWS Lambda
+  - A specified A-Record will be updated
+  - The record must exist beforehand
 - There are 3 main components
   - (1) An AWS Lambda function that modifies/updates an AWS Route53 domain/zone
     - The Route53 zone must already exist and be hosted in Route53
