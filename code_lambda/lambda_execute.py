@@ -6,7 +6,8 @@ import traceback
 
 """
 AWS Lambda script to update A-Records in AWS Route 53.
-This script will update all A-Records in selected Hosted Zone!
+This script will update a selected A-Records in selected Hosted Zone!
+Subdomains (somesub.somedomain.com) are accepted.
 
 The script expects a payload from AWS Kinesis stream, GetRecords API details:
 https://docs.aws.amazon.com/kinesis/latest/APIReference/API_GetRecords.html
@@ -60,7 +61,7 @@ def lambda_handler(event, context):
                 "Zone ID is not found for {}".format(domain)
             )
         # get list of route53 records
-        route53_record_sets_data = get_route53_record_sets(route53_zone_id)
+        route53_record_sets_data = get_route53_record_sets(route53_zone_id, domain)
         # debug print route53 records
         print "Route53 Records: {}".format(route53_record_sets_data)
 
@@ -152,15 +153,25 @@ def get_ip_domain(event):
 
 # get hosted zone ID
 def get_route53_zone_id(hosted_zone_name):
+    # print desired zone, raw
+    print "Hosted Zone Name: {}".format(hosted_zone_name)
+    # re-assemble desired zone name, last 2 segments of supplied zone name
+    hosted_zone_name = (
+        (hosted_zone_name.split(".")[-2])
+        + "."
+        + (hosted_zone_name.split(".")[-1])
+    )
+    # print desired name
+    print "Desired Zone: {}".format(hosted_zone_name)
+
     # boto client
     route53_client = boto3.client('route53')
-
     # get zone details
     zone_details = route53_client.list_hosted_zones_by_name(
         DNSName=hosted_zone_name
     )
     # debug print zone details
-    print "Zone details: {}".format(zone_details)
+    print "Zone Details: {}".format(zone_details)
 
     # dictionary is returned
     # extract data list
@@ -170,7 +181,13 @@ def get_route53_zone_id(hosted_zone_name):
     if not zone_records:
         raise ValueError("Cannot find zone records")
 
-    print zone_records
+    # debug print zone records raw
+    print "Zone Records: {}".format(zone_records)
+
+    # debug print each zone_record
+    for zone_record in zone_records:
+        # print out the zone from the list of zones
+        print "Record: {}".format(zone_record.get("Name"))
 
     # list of comprehension against zone ids
     record_zone_id = [
@@ -193,7 +210,7 @@ def get_route53_zone_id(hosted_zone_name):
 
 
 # function get route53 records
-def get_route53_record_sets(hosted_zone_id):
+def get_route53_record_sets(hosted_zone_id, domain):
     # boto client
     route53_client = boto3.client('route53')
 
@@ -215,7 +232,7 @@ def get_route53_record_sets(hosted_zone_id):
     record_sets_data = [
         record_set
         for record_set in record_sets.get("ResourceRecordSets")
-        if record_set.get("Type") == "A"
+        if record_set.get("Type") == "A" and record_set.get("Name") == domain+"."
     ]
 
     # return list of records
