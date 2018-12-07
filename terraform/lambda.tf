@@ -97,5 +97,5 @@ resource "aws_lambda_function" "lambda_function_from_s3" {
 
 // Outputs
 output "__post_deploy_config_1st" {
-  value = "interact with lambda using: python code_local/update_route53.py --aws_domain ${var.project_vars["domain"]} --aws_stream_name ${aws_kinesis_stream.stream_to_lambda.name} --aws_partition_key ${var.project_vars["partition_key"]}"
+  value = "interact with lambda using: python code_local/update_route53.py --aws_stream_name ${aws_kinesis_stream.stream_to_lambda.name} --aws_partition_key ${var.project_vars["partition_key"]} --aws_region eu-west-1 --aws_domain ${var.project_vars["domain"]} --aws_key reYOURACCESSKEYHEREg --aws_secret rePUTYOURSUPERSECRETHERETHISISANEXAMPLEr"
 }

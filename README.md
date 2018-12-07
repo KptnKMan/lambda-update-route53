@@ -41,6 +41,7 @@ Details available [here](docs/setup.md)
   - [x] DockerFile
   - [ ] DockerHub image automated build
   - [x] Terraform file(s)
+  - [ ] Kubernetes Template
   - [ ] Helm Chart
   - [ ] CloudFormation file
 - Documentation - Instructions
@@ -52,7 +53,8 @@ Details available [here](docs/setup.md)
   - [ ] Running App
     - [x] Using Python
     - [x] Using Docker
-    - [ ] Using Kubernetes Helm
+    - [ ] Using Kubernetes
+    - [ ] Using Helm (Kubernetes)
 - Python things
   - [ ] Unit tests
   - [x] Improve cred collection process
