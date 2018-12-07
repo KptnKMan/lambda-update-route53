@@ -67,18 +67,25 @@ export TF_VAR_aws_region=eu-west-1
 
 Note: These variables can instead also be specified in [project.tfvars](../config/project.tfvars) file
 
-- Apply/Build Environment
+Apply/Build Environment:
 
 ```bash
 terraform get terraform
 terraform init terraform
-terraform apply -input=false -state="config/project.state" -var-file="config/project.tfvars" "terraform"
+terraform apply terraform
 ```
 
-- Destroy Environment
+Destroy Environment:
 
 ```bash
-terraform destroy -input=false -state="config/project.state" -var-file="config/project.tfvars" "terraform"
+terraform destroy terraform
+```
+
+Alternative Build/Destroy, specifying config locations:
+
+```bash
+terraform apply -input=false -state="config/project.state" -var-file="config/project.tfvars" terraform
+terraform destroy -input=false -state="config/project.state" -var-file="config/project.tfvars" terraform
 ```
 
 ## Local App Usage

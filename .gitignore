@@ -3,8 +3,7 @@
 .terraform/*
 *.DS_Store*
 *.pyc
-config/aws_credentials.env.sample
-config/project.tfvars
+terraform.tfvars
 code_lambda/settings_file*
 code_local/settings_file*
 deploys/*
